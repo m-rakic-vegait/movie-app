@@ -3,7 +3,7 @@ import apiClientV3 from './ApiClientV3';
 import apiClientV4 from './ApiClientV4';
 
 export const getMovies = async (page: number): Promise<Movie[]> => {
-    const response = await apiClientV4.get(`list/1?page=${page}&api_key=${process.env.REACT_APP_API_KEY}`);
+    const response = await apiClientV3.get(`movie/top_rated?page=${page}&api_key=${process.env.REACT_APP_API_KEY}`);
     const movies: Movie[] = processMovies(response.data.results);
     return movies;
 }
