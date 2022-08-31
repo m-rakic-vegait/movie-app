@@ -2,10 +2,28 @@ import { Movie, ResponseMovie, Genre } from '../interfaces';
 import apiClientV3 from './ApiClientV3';
 import apiClientV4 from './ApiClientV4';
 
-export const getMovies = async (): Promise<Movie[]> => {
-    const response = await apiClientV4.get(`list/1?api_key=${process.env.REACT_APP_API_KEY}`);
+export const getMovies = async (page: number): Promise<Movie[]> => {
+    const response = await apiClientV4.get(`list/1?page=${page}&api_key=${process.env.REACT_APP_API_KEY}`);
+    const movies: Movie[] = processMovies(response.data.results);
+    return movies;
+}
 
-    const movies: Movie[] = response.data.results.map((movie: ResponseMovie) => {
+export const getGenres = async () => {
+    const response = await apiClientV3.get(`genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`);
+
+    let genresMap: { [key: number]: string; } = {};
+    response.data.genres.forEach((genre: Genre) => genresMap[genre.id] = genre.name);
+    return genresMap;
+}
+
+export const searchMovies = async (term: string): Promise<Movie[]> => {
+    const response = await apiClientV4.get(`search/movie?query=${term}&api_key=${process.env.REACT_APP_API_KEY}`);
+    const movies: Movie[] = processMovies(response.data.results);
+    return movies;
+}
+
+const processMovies = (movies: ResponseMovie[]): Movie[] => {
+    const processedMovies: Movie[] = movies.map((movie: ResponseMovie) => {
         return {
             id: movie.id,
             title: movie.title,
@@ -17,13 +35,5 @@ export const getMovies = async (): Promise<Movie[]> => {
         }
     });
 
-    return movies;
-}
-
-export const getGenres = async () => {
-    const response = await apiClientV3.get(`genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`);
-
-    let genresMap: { [key: number]: string; } = {};
-    response.data.genres.forEach((genre: Genre) => genresMap[genre.id] = genre.name);
-    return genresMap;
+    return processedMovies;
 }
