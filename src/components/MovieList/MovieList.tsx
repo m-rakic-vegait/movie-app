@@ -10,19 +10,23 @@ interface MovieListProps {
 const MovieList = ({movies}: MovieListProps) => {
     return (
         <ListWrap>
-            {movies.map(movie =>
-                <ItemWrap>
-                    <MovieItem 
-                        key={movie.id}
-                        id={movie.id}
-                        title={movie.title}
-                        posterPath={movie.posterPath}
-                        backdropPath={movie.backdropPath}
-                        genreIds={movie.genreIds}
-                        releaseDate={movie.releaseDate}
-                        overview={movie.overview} />
-                </ItemWrap>
-                )
+            {
+                movies.length > 0 ?
+                (movies.map(movie =>
+                    <ItemWrap>
+                        <MovieItem 
+                            key={movie.id}
+                            id={movie.id}
+                            title={movie.title}
+                            posterPath={movie.posterPath}
+                            backdropPath={movie.backdropPath}
+                            genreIds={movie.genreIds}
+                            releaseDate={movie.releaseDate}
+                            overview={movie.overview} />
+                    </ItemWrap>
+                    )
+                ) :
+                (<p>No movies found.</p>)
             }
         </ListWrap>
     );

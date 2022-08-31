@@ -7,6 +7,11 @@ export const ListWrap = styled.div`
     justify-content: center;
     width: 100%;
     background-color: ${({ theme }) => theme.palette.primary};
+    font-family: ${({ theme }) => theme.font.family.primary};
+
+    p {
+        color: ${({ theme }) => theme.palette.textColor};
+    }
 `;
 
 export const ItemWrap = styled.div`
