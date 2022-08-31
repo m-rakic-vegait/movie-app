@@ -1,3 +1,6 @@
+import React from "react";
+import { ButtonWrap } from "./Button.style";
+
 interface ButtonProps {
     text: string;
     onClick: () => void;
@@ -5,7 +8,9 @@ interface ButtonProps {
 
 const Button = ({text, onClick}: ButtonProps) => {
     return (
-        <button onClick={onClick}>{text}</button>
+        <ButtonWrap>
+            <button onClick={onClick}>{text}</button>
+        </ButtonWrap>
     );
 }
 

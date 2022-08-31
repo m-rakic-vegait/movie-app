@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const ItemDetailsWrap = styled.div`
     display: flex;
-    margin: 10px 0;
-    background-color: ${({ theme }) => theme.palette.secondary};
+    background-color: ${({ theme }) => theme.palette.primary};
     color: ${({ theme }) => theme.palette.textColor};
+    padding: 3em 10%;
     
     img {
         width: 400px;

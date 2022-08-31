@@ -12,9 +12,8 @@ const MovieList = ({movies}: MovieListProps) => {
         <ListWrap>
             {movies.length > 0 ?
             (movies.map(movie =>
-                <ItemWrap>
+                <ItemWrap key={movie.id}>
                     <MovieItem 
-                        key={movie.id}
                         id={movie.id}
                         title={movie.title}
                         posterPath={movie.posterPath}

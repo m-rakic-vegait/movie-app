@@ -2,14 +2,14 @@ import { DefaultTheme } from 'styled-components';
 
 const theme: DefaultTheme = {
   palette: {
-    primary: '#04407d',
-    secondary: '#02324a',
-    textColor: '#dddd00'
+    primary: '#111111',
+    secondary: '#333333',
+    textColor: '#ffcc00'
   },
   font: {
     family: {
-      primary: 'Tahoma',
-      secondary: 'Verdana'
+      primary: 'Verdana',
+      secondary: 'Tahoma'
     },
     size: {
       s1: 10,
@@ -20,7 +20,7 @@ const theme: DefaultTheme = {
       m3: 16,
       l1: 18,
       l2: 20,
-      l3: 24,
+      l3: 32,
     },
     weight: {
       thin: 100,
