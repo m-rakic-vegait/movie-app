@@ -2,6 +2,7 @@ import React from "react";
 import { Movie } from "../../interfaces";
 import { InfoWrap, ItemDetailsWrap } from "./MoveItemDetails.style";
 import { useGenresContext } from '../../contexts/GenresContext';
+import MovieItemImg from '../MovieItemImg';
 
 interface MovieItemDetailsProps {
     movie: Movie;
@@ -12,12 +13,9 @@ const MovieItemDetails = ({movie}: MovieItemDetailsProps) => {
     const genreNames = movie.genreIds.map(id => GenresContext.genresMap[id]);
     const genreText = genreNames.join(', ');
 
-    const imgSrcUrl = movie.posterPath ? movie.posterPath : movie.backdropPath;
-    const imgSrc = `${process.env.REACT_APP_IMG_URL}${imgSrcUrl}?api_key=${process.env.REACT_APP_API_KEY}`;
-
     return (
         <ItemDetailsWrap>
-            <img src={imgSrc} />
+            <MovieItemImg posterPath={movie.posterPath} backdropPath={movie.backdropPath} />
             <InfoWrap>
                 <strong>Title</strong>
                 <p>{movie.title}</p>

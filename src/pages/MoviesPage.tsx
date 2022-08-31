@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import SearchInput from '../components/SearchInput/SearchInput';
-import MovieList from '../components/MovieList/MovieList';
-import { getMovies } from '../services/MovieService';
-import { Movie } from '../interfaces';
+import React, { useEffect, useState } from 'react';
+import Button from "../components/Button/Button";
 import Loader from '../components/Loader/Loader';
+import MovieList from '../components/MovieList/MovieList';
+import SearchInput from '../components/SearchInput/SearchInput';
 import { useGenresContext } from '../contexts/GenresContext';
+import { Movie } from '../interfaces';
+import { getMovies } from '../services/MovieService';
 
 const MoviesPage = () => {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [isLoading, setisLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
 
-    const GenresContext: {genresMap: { [key: number]: string; }; isLoading: boolean} = useGenresContext();
+    const GenresContext: { genresMap: { [key: number]: string; }; isLoading: boolean } = useGenresContext();
 
     const fetchMovies = async (): Promise<void> => {
         setisLoading(true);
         const movieList = await getMovies(page);
-        setMovies(movieList);
+        setMovies([...movies, ...movieList]);
         setisLoading(false);
         setPage(prev => prev + 1);
+    }
+
+    const searchHandler = (movies: Movie[]): void => {
+        setMovies(movies);
     }
 
     useEffect(() => {
@@ -27,12 +32,13 @@ const MoviesPage = () => {
 
     return (
         <section>
-            {(!isLoading && !GenresContext.isLoading) ? 
-            (<>
-                <SearchInput />
-                <MovieList movies={movies} />
-            </>) :
-            <Loader />
+            {(!GenresContext.isLoading) ?
+                (<>
+                    <SearchInput onSearch={searchHandler} />
+                    <MovieList movies={movies} />
+                    {(!isLoading) ? <Button text="Load more" onClick={fetchMovies} /> : <Loader />}
+                </>) :
+                <Loader />
             }
         </section>
     );
