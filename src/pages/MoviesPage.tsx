@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import SearchInput from '../components/SearchInput/SearchInput';
 import MovieList from '../components/MovieList/MovieList';
-import { getMovies } from '../services/Movies';
+import { getMovies } from '../services/MovieService';
 import { Movie } from '../interfaces';
 import Loader from '../components/Loader/Loader';
+import { useGenresContext } from '../contexts/GenresContext';
 
 const MoviesPage = () => {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [isLoading, setisLoading] = useState<boolean>(false);
+
+    const GenresContext: {genresMap: { [key: number]: string; }; isLoading: boolean} = useGenresContext();
 
     const fetchMovies = async (): Promise<void> => {
         setisLoading(true);
@@ -22,7 +25,7 @@ const MoviesPage = () => {
 
     return (
         <section>
-            {!isLoading ? 
+            {(!isLoading && !GenresContext.isLoading) ? 
             (<>
                 <SearchInput />
                 <MovieList movies={movies} />
