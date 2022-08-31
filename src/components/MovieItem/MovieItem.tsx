@@ -5,17 +5,22 @@ import { MovieItemWrap } from "./MovieItem.style";
 
 const MovieItem = (props: Movie) => {
     const navigate = useNavigate();
+    
+    // set image source url
+    const imgSrcUrl = props.posterPath ? props.posterPath : props.backdropPath;
+    const imgSrc = `${process.env.REACT_APP_IMG_URL}${imgSrcUrl}?api_key=${process.env.REACT_APP_API_KEY}`;
 
+    // navigate to movie details page,
+    // sent props because the movie has all info there,
+    // so it is not necessary to call api for that
     const clickHandler = () => {
         navigate(`movie/${props.id}`, { replace: true, state: props });
     }
 
     return (
         <MovieItemWrap onClick={clickHandler}>
-            <img src='https://m.media-amazon.com/images/M/MV5BNzU4NWEwNDItMzMzYy00ZDYyLWIxZjMtMDlkYWVjNjQwYzBjXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg' />
-
+            <img src={imgSrc} />
             <p><strong>Title:</strong> {props.title}</p>
-            {/* <p>{props.backdropPath}</p> */}
             <p><strong>Genres:</strong> {props.genreIds}</p>
             <p><strong>Release date:</strong> {props.releaseDate}</p>
         </MovieItemWrap>
