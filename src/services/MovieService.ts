@@ -10,7 +10,6 @@ export const getMovies = async (page: number): Promise<Movie[]> => {
 
 export const getGenres = async () => {
     const response = await apiClientV3.get(`genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`);
-
     let genresMap: { [key: number]: string; } = {};
     response.data.genres.forEach((genre: Genre) => genresMap[genre.id] = genre.name);
     return genresMap;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../components/Button/Button"
+import Button from "../components/Button/Button";
 import MovieItemDetails from "../components/MovieItemDetails/MovieItemDetails";
 import { Movie } from "../interfaces";
 
