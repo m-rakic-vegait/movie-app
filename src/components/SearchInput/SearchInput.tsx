@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Movie } from "../../interfaces";
-import { searchMovies } from "../../services/MovieService";
+import { getMovies, searchMovies } from "../../services/MovieService";
 import { InputWrap } from "./SearchInput.style";
 
 interface SearchField {
@@ -9,13 +9,26 @@ interface SearchField {
 
 const SearchInput = (props: SearchField) => {
     const [value, setValue] = useState<string>('');
+    const [isChanged, setIsChanged] = useState<boolean>(false);
+
+    const changeHandler = (e: any) => {
+        setValue(e.target.value);
+        setIsChanged(true);
+    }
 
     useEffect(() => {
-        if (value !== '') {
+        if (isChanged) {
             const delayDebounceFn = setTimeout(() => {
-                searchMovies(value).then((response) => {
-                    props.onSearch(response);
-                });
+                if (value !== '') {
+                    searchMovies(value).then((response) => {
+                        props.onSearch(response);
+                    });
+                }
+                else {
+                    getMovies(1).then((response) => {
+                        props.onSearch(response);
+                    });
+                }
             }, 500);
 
             return () => clearTimeout(delayDebounceFn);
@@ -24,7 +37,7 @@ const SearchInput = (props: SearchField) => {
 
     return (
         <InputWrap>
-            <input placeholder="Search by movie title" onChange={(e) => { setValue(e.target.value) }} value={value} />
+            <input placeholder="Search by movie title" onChange={changeHandler} value={value} />
         </InputWrap>
     );
 }
