@@ -11,7 +11,7 @@ const SearchInput = (props: SearchField) => {
     const [value, setValue] = useState<string>('');
     const [isChanged, setIsChanged] = useState<boolean>(false);
 
-    const changeHandler = (e: any) => {
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
         setIsChanged(true);
     }
