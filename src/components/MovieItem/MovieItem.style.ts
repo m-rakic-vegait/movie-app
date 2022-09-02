@@ -7,15 +7,13 @@ export const MovieItemWrap = styled.div`
     flex-direction: column;
     color: ${({ theme }) => theme.palette.textColor};
     line-height: 1.0;
-    border: 1px solid ${({ theme }) => theme.palette.textColor};
     border-radius: 1rem;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: transform .5s;
 
     :hover {
         cursor: pointer;
         box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);
-        transform: scale(1.05);
+        transform: scale(1.1);
     }
 
     img {
