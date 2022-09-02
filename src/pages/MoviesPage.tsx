@@ -33,11 +33,7 @@ const MoviesPage = () => {
         setIsLoading(false);
     }
 
-    const searchHandler = (param: {
-        movieData: MovieData; 
-        isSearchUsed: boolean;
-        term: string;
-    }): void => {
+    const searchHandler = (param: { movieData: MovieData;  isSearchUsed: boolean; term: string; }): void => {
         setIsSearchUsed(param.isSearchUsed);
         setSearchTerm(param.term);
         setMovieData(param.movieData);
