@@ -19,7 +19,6 @@ const App = () => {
 	apiClient.interceptors.response.use(
 		response => response,
 		(error) => {
-			console.log(error);
 			let status: string = error.response.status.toString();
 			if (!errorPagesMap[status as OnlyStatusCodes]) status = '500';
 			navigate(`/error-page/${status}`, { replace: true });
