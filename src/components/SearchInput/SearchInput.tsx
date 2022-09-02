@@ -4,7 +4,12 @@ import { getMovies, searchMovies } from "../../services/MovieService";
 import { InputWrap } from "./SearchInput.style";
 
 interface SearchField {
-    onSearch: (movies: MovieData) => void;
+    onSearch: (param: {
+        movieData: MovieData;
+        isSearchUsed: boolean;
+        term: string;
+    }) => void;
+    page: number;
 }
 
 const SearchInput = (props: SearchField) => {
@@ -20,13 +25,22 @@ const SearchInput = (props: SearchField) => {
         if (isChanged) {
             const delayDebounceFn = setTimeout(() => {
                 if (value !== '') {
-                    searchMovies(value).then((response) => {
-                        props.onSearch(response);
+                    const nextPage = props.page + 1;
+                    searchMovies(value, nextPage).then((response) => {
+                        props.onSearch({
+                            movieData: response,
+                            isSearchUsed: true,
+                            term: value
+                        });
                     });
                 }
                 else {
                     getMovies(1).then((response) => {
-                        props.onSearch(response);
+                        props.onSearch({
+                            movieData: response,
+                            isSearchUsed: false,
+                            term: ''
+                        });
                     });
                 }
             }, 500);

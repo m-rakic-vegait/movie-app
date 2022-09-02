@@ -34,8 +34,8 @@ export const getGenres = async () => {
     return genresMap;
 }
 
-export const searchMovies = async (term: string): Promise<MovieData> => {
-    const response = await apiClient.get(`4/search/movie?query=${term}&api_key=${process.env.REACT_APP_API_KEY}`);
+export const searchMovies = async (term: string, page: number): Promise<MovieData> => {
+    const response = await apiClient.get(`4/search/movie?query=${term}&page=${page}&api_key=${process.env.REACT_APP_API_KEY}`);
     const movies: Movie[] = processMovies(response.data.results);
     return {
         results: movies,
