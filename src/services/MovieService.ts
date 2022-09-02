@@ -1,10 +1,15 @@
-import { Movie, ResponseMovie, Genre } from '../interfaces';
+import { Movie, MovieData, ResponseMovie, Genre } from '../interfaces';
 import apiClient from './ApiClient';
 
-export const getMovies = async (page: number): Promise<Movie[]> => {
+export const getMovies = async (page: number): Promise<MovieData> => {
     const response = await apiClient.get(`3/movie/top_rated?page=${page}&api_key=${process.env.REACT_APP_API_KEY}`);
     const movies: Movie[] = processMovies(response.data.results);
-    return movies;
+    return {
+        results: movies,
+        page: response.data.page,
+        totalPages: response.data.total_pages,
+        totalResults: response.data.total_results
+    }
 }
 
 export const getMovieDetails = async (id: string): Promise<Movie> => {
@@ -29,10 +34,15 @@ export const getGenres = async () => {
     return genresMap;
 }
 
-export const searchMovies = async (term: string): Promise<Movie[]> => {
+export const searchMovies = async (term: string): Promise<MovieData> => {
     const response = await apiClient.get(`4/search/movie?query=${term}&api_key=${process.env.REACT_APP_API_KEY}`);
     const movies: Movie[] = processMovies(response.data.results);
-    return movies;
+    return {
+        results: movies,
+        page: response.data.page,
+        totalPages: response.data.total_pages,
+        totalResults: response.data.total_results
+    }
 }
 
 const processMovies = (movies: ResponseMovie[]): Movie[] => {

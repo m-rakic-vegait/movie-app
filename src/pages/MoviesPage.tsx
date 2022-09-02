@@ -4,27 +4,25 @@ import Loader from '../components/Loader/Loader';
 import MovieList from '../components/MovieList/MovieList';
 import SearchInput from '../components/SearchInput/SearchInput';
 import { useGenresContext } from '../contexts/GenresContext';
-import { Movie } from '../interfaces';
+import { MovieData } from '../interfaces';
 import { getMovies } from '../services/MovieService';
 
 const MoviesPage = () => {
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [isLoading, setisLoading] = useState<boolean>(false);
-    const [page, setPage] = useState<number>(1);
-
+    const [movieData, setMovieData] = useState<MovieData | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const GenresContext: { genresMap: { [key: number]: string; }; isLoading: boolean } = useGenresContext();
 
     const fetchMovies = async (): Promise<void> => {
-        setisLoading(true);
-        const movieList = await getMovies(page);
-        setMovies([...movies, ...movieList]);
-        setisLoading(false);
-        setPage(prev => prev + 1);
+        setIsLoading(true);
+        const nextPage = movieData ? ++movieData.page : 1;
+        const fetchedMovieData = await getMovies(nextPage);
+        let movies = movieData?.results || [];
+        fetchedMovieData.results = [...movies, ...fetchedMovieData.results];
+        setMovieData(fetchedMovieData);
+        setIsLoading(false);
     }
 
-    const searchHandler = (movies: Movie[]): void => {
-        setMovies(movies);
-    }
+    const searchHandler = (movieData: MovieData): void => setMovieData(movieData);
 
     useEffect(() => {
         fetchMovies();
@@ -35,8 +33,8 @@ const MoviesPage = () => {
             {(!GenresContext.isLoading) ?
                 (<>
                     <SearchInput onSearch={searchHandler} />
-                    <MovieList movies={movies} />
-                    {(!isLoading) ? <Button text="Load more" onClick={fetchMovies} /> : <Loader />}
+                    <MovieList movies={movieData?.results ? movieData.results : []} />
+                    {(!isLoading && movieData && movieData.page < movieData.totalPages) ? <Button text="Load more" onClick={fetchMovies} /> : <Loader />}
                 </>) :
                 <Loader />
             }

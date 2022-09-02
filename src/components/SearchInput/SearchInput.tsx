@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Movie } from "../../interfaces";
+import { MovieData } from "../../interfaces";
 import { getMovies, searchMovies } from "../../services/MovieService";
 import { InputWrap } from "./SearchInput.style";
 
 interface SearchField {
-    onSearch: (movies: Movie[]) => void;
+    onSearch: (movies: MovieData) => void;
 }
 
 const SearchInput = (props: SearchField) => {
