@@ -7,14 +7,12 @@ import MovieItemImg from '../MovieItemImg';
 
 const MovieItem = (props: Movie) => {
     const navigate = useNavigate();
+    
     const GenresContext: {genresMap: { [key: number]: string; }; isLoading: boolean} = useGenresContext();
-
     const genreNames = props.genreIds.map(id => GenresContext.genresMap[id]);
     const genreText = genreNames.join(', ');
 
-    const clickHandler = () => {
-        navigate(`movie/${props.id}`, { replace: true, state: props });
-    }
+    const clickHandler = () => navigate(`movie/${props.id}`, { replace: true });
 
     return (
         <MovieItemWrap onClick={clickHandler}>

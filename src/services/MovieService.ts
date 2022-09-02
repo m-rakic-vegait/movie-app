@@ -7,6 +7,21 @@ export const getMovies = async (page: number): Promise<Movie[]> => {
     return movies;
 }
 
+export const getMovieDetails = async (id: string): Promise<Movie> => {
+    const response = await apiClient.get(`3/movie/${id}?api_key=${process.env.REACT_APP_API_KEY}`);
+    const movie = response.data;
+    const genreIds = movie.genres.map((genre: { id: Number; name: string; }) => genre.id);
+    return {
+        id: movie.id,
+        title: movie.title,
+        posterPath: movie.poster_path,
+        backdropPath: movie.backdrop_path,
+        genreIds: genreIds,
+        releaseDate: movie.release_date,
+        overview: movie.overview
+    }
+}
+
 export const getGenres = async () => {
     const response = await apiClient.get(`3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}`);
     let genresMap: { [key: number]: string; } = {};
