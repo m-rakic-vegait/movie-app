@@ -1,6 +1,7 @@
 const paths = {
     movieList: '/',
-    movieDetails: '/movie/:id'
+    movieDetails: '/movie/:id',
+    errorPage: '/error-page/:statusCode'
 };
 
 export default paths;
