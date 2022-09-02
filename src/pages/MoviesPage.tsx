@@ -51,7 +51,7 @@ const MoviesPage = () => {
         <section>
             {(!GenresContext.isLoading) ?
                 (<>
-                    <SearchInput onSearch={searchHandler} page={movieData ? movieData.page : 1} />
+                    <SearchInput onSearch={searchHandler} />
                     <MovieList movies={movieData?.results ? movieData.results : []} />
                     {(!isLoading && movieData && movieData.page < movieData.totalPages) ? <Button text="Load more" onClick={loadMoreHandler} /> : <Loader />}
                 </>) :

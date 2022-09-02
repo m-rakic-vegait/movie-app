@@ -9,7 +9,6 @@ interface SearchField {
         isSearchUsed: boolean;
         term: string;
     }) => void;
-    page: number;
 }
 
 const SearchInput = (props: SearchField) => {
@@ -25,8 +24,7 @@ const SearchInput = (props: SearchField) => {
         if (isChanged) {
             const delayDebounceFn = setTimeout(() => {
                 if (value !== '') {
-                    const nextPage = props.page + 1;
-                    searchMovies(value, nextPage).then((response) => {
+                    searchMovies(value, 1).then((response) => {
                         props.onSearch({
                             movieData: response,
                             isSearchUsed: true,
